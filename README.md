@@ -32,13 +32,13 @@ cd noisy
 Run the script
 
 ```
-python gen.py --config config.json
+python noisy.py --config config.json
 ```
 
 The program can accept a number of command line arguments:
 ```
-$ python gen.py --help
-usage: gen.py [-h] [--log -l] [--config -c]
+$ python noisy.py --help
+usage: noisy.py [-h] [--log -l] [--config -c]
 
 optional arguments:
   -h, --help   show this help message and exit
