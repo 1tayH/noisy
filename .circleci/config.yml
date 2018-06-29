@@ -21,7 +21,8 @@ jobs:
       - run:
           name: install dependencies
           command: |
-            python3 -m venv venv
+            mkdir -p ./venv
+            virtualenv ./venv
             . venv/bin/activate
             pip install -r requirements.txt
 
@@ -32,9 +33,10 @@ jobs:
 
       - run:
           name: run script
+          # make sure the script runs, set a 60s timeout
           command: |
             . venv/bin/activate
-            python noisy.py --config config.json
+            python noisy.py --config config.json --timeout 60
 
       - store_artifacts:
           path: test-reports
