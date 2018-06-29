@@ -38,12 +38,13 @@ python noisy.py --config config.json
 The program can accept a number of command line arguments:
 ```
 $ python noisy.py --help
-usage: noisy.py [-h] [--log -l] [--config -c]
+usage: noisy.py [-h] [--log -l] --config -c [--timeout -t]
 
 optional arguments:
-  -h, --help   show this help message and exit
-  --log -l     logging level
-  --config -c  config file
+  -h, --help    show this help message and exit
+  --log -l      logging level
+  --config -c   config file
+  --timeout -t  for how long the crawler should be running, in seconds
 ```
 only the config file argument is required.
 
