@@ -1,0 +1,5 @@
+FROM python:2.7-slim-stretch
+RUN pip install requests
+WORKDIR /
+COPY src /
+ENTRYPOINT ["python", "gen.py", "--config", "config.json", "--log", "debug"]
