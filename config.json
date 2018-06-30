@@ -2,6 +2,7 @@
     "max_depth": 25,
     "min_sleep": 3,
     "max_sleep": 6,
+    "timeout": false,
     "root_urls": [
         "http://4chan.org",
         "https://www.reddit.com",

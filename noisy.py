@@ -7,6 +7,8 @@ import argparse
 import json
 import urlparse
 import sys
+import datetime
+
 
 reload(sys)
 sys.setdefaultencoding('latin-1')
@@ -19,6 +21,13 @@ class Crawler(object):
         """
         self._config = {}
         self._links = []
+        self._start_time = None
+
+    class CrawlerTimedOut(Exception):
+        """
+        Raised when the specified timeout is exceeded
+        """
+        pass
 
     def _request(self, url):
         """
@@ -129,6 +138,9 @@ class Crawler(object):
             # escape from the recursion, we don't have links to continue or we have reached the max depth
             return
 
+        if self._is_timeout_reached():
+            raise self.CrawlerTimedOut
+
         random_link = random.choice(self._links)
         try:
             logging.info("Visiting {}".format(random_link))
@@ -151,8 +163,7 @@ class Crawler(object):
             logging.debug("Exception on URL: %s, removing from list and trying again!" % random_link)
             self._remove_and_blacklist(random_link)
 
-        depth += 1
-        self._browse_from_links(depth)
+        self._browse_from_links(depth + 1)
 
     def load_config_file(self, file_path):
         """
@@ -178,29 +189,57 @@ class Crawler(object):
         """
         self._config = config
 
+    def set_option(self, option, value):
+        """
+        Sets a specific key in the config dict
+        :param option: the option key in the config, for example: "max_depth"
+        :param value: value for the option
+        """
+        self._config[option] = value
+
+    def _is_timeout_reached(self):
+        """
+        Determines whether the specified timeout has reached, if no timeout
+        is specified then return false
+        :return: boolean indicating whether the timeout has reached
+        """
+        is_timeout_set = self._config["timeout"] is not False  # False is set when no timeout is desired
+        end_time = self._start_time + datetime.timedelta(seconds=self._config["timeout"])
+        is_timed_out = datetime.datetime.now() >= end_time
+
+        return is_timeout_set and is_timed_out
+
     def crawl(self):
         """
         Collects links from our root urls, stores them and then calls
         `_browse_from_links` to browse them
         """
-        for url in self._config["root_urls"]:
-            try:
-                body = self._request(url).content
-                self._links = self._extract_urls(body, url)
-            except requests.exceptions.RequestException:
-                logging.warn("Error connecting to root url: {}".format(url))
-                continue
+        self._start_time = datetime.datetime.now()
 
-            logging.debug("found {} links".format(len(self._links)))
+        while True:
+            for url in self._config["root_urls"]:
+                try:
+                    body = self._request(url).content
+                    self._links = self._extract_urls(body, url)
+                    logging.debug("found {} links".format(len(self._links)))
+                    self._browse_from_links()
 
-            self._browse_from_links()
-        logging.debug("No more links were found")
+                except requests.exceptions.RequestException:
+                    logging.warn("Error connecting to root url: {}".format(url))
+
+                except self.CrawlerTimedOut:
+                    logging.info("Timeout has exceeded, exiting")
+                    return
+
+            logging.debug("No more links were found")
 
 
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--log', metavar='-l', type=str, help='logging level', default='info')
     parser.add_argument('--config', metavar='-c', required=True, type=str, help='config file')
+    parser.add_argument('--timeout', metavar='-t', required=False, type=int,
+                        help='for how long the crawler should be running, in seconds', default=False)
     args = parser.parse_args()
 
     level = getattr(logging, args.log.upper())
@@ -209,8 +248,10 @@ def main():
     crawler = Crawler()
     crawler.load_config_file(args.config)
 
-    while True:
-        crawler.crawl()
+    if args.timeout:
+        crawler.set_option('timeout', args.timeout)
+
+    crawler.crawl()
 
 
 if __name__ == '__main__':
