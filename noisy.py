@@ -163,8 +163,7 @@ class Crawler(object):
             logging.debug("Exception on URL: %s, removing from list and trying again!" % random_link)
             self._remove_and_blacklist(random_link)
 
-        depth += 1
-        self._browse_from_links(depth)
+        self._browse_from_links(depth + 1)
 
     def load_config_file(self, file_path):
         """
@@ -217,22 +216,22 @@ class Crawler(object):
         """
         self._start_time = datetime.datetime.now()
 
-        for url in self._config["root_urls"]:
-            try:
-                body = self._request(url).content
-                self._links = self._extract_urls(body, url)
-                logging.debug("found {} links".format(len(self._links)))
-                self._browse_from_links()
+        while True:
+            for url in self._config["root_urls"]:
+                try:
+                    body = self._request(url).content
+                    self._links = self._extract_urls(body, url)
+                    logging.debug("found {} links".format(len(self._links)))
+                    self._browse_from_links()
 
-            except requests.exceptions.RequestException:
-                logging.warn("Error connecting to root url: {}".format(url))
-                continue
+                except requests.exceptions.RequestException:
+                    logging.warn("Error connecting to root url: {}".format(url))
 
-            except self.CrawlerTimedOut:
-                logging.info("Timeout has exceeded, exiting")
-                return
+                except self.CrawlerTimedOut:
+                    logging.info("Timeout has exceeded, exiting")
+                    return
 
-        logging.debug("No more links were found")
+            logging.debug("No more links were found")
 
 
 def main():
