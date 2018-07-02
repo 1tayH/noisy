@@ -17,7 +17,7 @@ except ImportError:  # Python 3
 try:                 # Python 2
     reload(sys)
     sys.setdefaultencoding('latin-1')
-excpet NameError:    # Python 3
+except NameError:    # Python 3
     pass
 
 
