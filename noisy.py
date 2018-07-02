@@ -10,17 +10,15 @@ import time
 import requests
 
 try:                 # Python 2
-    reload
-except NameError:    # Python 3
-    from importlib import reload
-
-try:                 # Python 2
     from urllib.parse import urljoin, urlparse
 except ImportError:  # Python 3
     from urlparse import urljoin, urlparse
 
-reload(sys)
-sys.setdefaultencoding('latin-1')
+try:                 # Python 2
+    reload(sys)
+    sys.setdefaultencoding('latin-1')
+excpet NameError:    # Python 3
+    pass
 
 
 class Crawler(object):
