@@ -118,7 +118,7 @@ class Crawler(object):
         urls = re.findall(pattern, str(body))
 
         normalize_urls = [self._normalize_link(url, root_url) for url in urls]
-        filtered_urls = filter(self._should_accept_url, normalize_urls)
+        filtered_urls = list(filter(self._should_accept_url, normalize_urls))
 
         return filtered_urls
 
@@ -140,7 +140,7 @@ class Crawler(object):
         :param depth: our current link depth
         """
         is_depth_reached = depth >= self._config['max_depth']
-        if not len(list(self._links)) or is_depth_reached:
+        if not len(self._links) or is_depth_reached:
             logging.debug("Hit a dead end, moving to the next root URL")
             # escape from the recursion, we don't have links to continue or we have reached the max depth
             return
@@ -228,7 +228,7 @@ class Crawler(object):
                 try:
                     body = self._request(url).content
                     self._links = self._extract_urls(body, url)
-                    logging.debug("found {} links".format(len(list(self._links))))
+                    logging.debug("found {} links".format(len(self._links)))
                     self._browse_from_links()
 
                 except requests.exceptions.RequestException:
