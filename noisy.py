@@ -1,17 +1,24 @@
-import requests
-import re
-import time
-import random
-import logging
 import argparse
-import json
-import urlparse
-import sys
 import datetime
+import json
+import logging
+import random
+import re
+import sys
+import time
 
+import requests
 
-reload(sys)
-sys.setdefaultencoding('latin-1')
+try:                 # Python 2
+    from urllib.parse import urljoin, urlparse
+except ImportError:  # Python 3
+    from urlparse import urljoin, urlparse
+
+try:                 # Python 2
+    reload(sys)
+    sys.setdefaultencoding('latin-1')
+except NameError:    # Python 3
+    pass
 
 
 class Crawler(object):
@@ -52,8 +59,8 @@ class Crawler(object):
         :param root_url: the URL the DOM was loaded from
         :return: absolute link
         """
-        parsed_url = urlparse.urlparse(link)
-        parsed_root_url = urlparse.urlparse(root_url)
+        parsed_url = urlparse(link)
+        parsed_root_url = urlparse(root_url)
 
         # '//' means keep the current protocol used to access this URL
         if link.startswith("//"):
@@ -61,7 +68,7 @@ class Crawler(object):
 
         # possibly a relative path
         if not parsed_url.scheme:
-            return urlparse.urljoin(root_url, link)
+            return urljoin(root_url, link)
 
         return link
 
@@ -111,7 +118,7 @@ class Crawler(object):
         urls = re.findall(pattern, str(body))
 
         normalize_urls = [self._normalize_link(url, root_url) for url in urls]
-        filtered_urls = filter(self._should_accept_url, normalize_urls)
+        filtered_urls = list(filter(self._should_accept_url, normalize_urls))
 
         return filtered_urls
 
