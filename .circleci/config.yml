@@ -36,6 +36,8 @@ jobs:
           # make sure the script runs, set a 60s timeout
           command: |
             . venv/bin/activate
+            python --version
+            pip -- version
             python noisy.py --config config.json --timeout 60
 
       - store_artifacts:
