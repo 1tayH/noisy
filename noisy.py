@@ -228,7 +228,7 @@ class Crawler(object):
                 try:
                     body = self._request(url).content
                     self._links = self._extract_urls(body, url)
-                    logging.debug("found {} links".format(len(self._links)))
+                    logging.debug("found {} links".format(len(list(self._links))))
                     self._browse_from_links()
 
                 except requests.exceptions.RequestException:
