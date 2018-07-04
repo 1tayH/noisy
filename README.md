@@ -90,6 +90,14 @@ DEBUG:urllib3.connectionpool:https://www.reddit.com:443 "GET /user/Saditon HTTP/
 
 `docker run -it noisy --config config.json`
 
+## Run multiple containers using `docker-compose`
+
+docker-compose is useful if you want to run more than one container at the same time, to generate more noise. To do so, simply run the following command:
+```
+$ docker-compose build noisy
+$ docker-compose up --scale noisy=<number-of-containers>
+```
+
 ## Authors
 
 * **Itay Hury** - *Initial work* - [1tayH](https://github.com/1tayH)
@@ -101,6 +109,7 @@ See also the list of [contributors](https://github.com/1tayH/Noisy/contributors)
 This project is licensed under the GNU GPLv3 License - see the [LICENSE.md](LICENSE.md) file for details
 
 ## Acknowledgments
+
 This project has been inspired by
 * [RandomNoise](http://www.randomnoise.us)
 * [web-traffic-generator](https://github.com/ecapuano/web-traffic-generator)
