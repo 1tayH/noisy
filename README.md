@@ -90,6 +90,10 @@ DEBUG:urllib3.connectionpool:https://www.reddit.com:443 "GET /user/Saditon HTTP/
 
 `docker run -it noisy --config config.json`
 
+## Some examples
+
+Some edge-cases examples are available on the `examples` folder. You can read more there [examples/README.md](examples/README.md).
+
 ## Authors
 
 * **Itay Hury** - *Initial work* - [1tayH](https://github.com/1tayH)
@@ -101,6 +105,7 @@ See also the list of [contributors](https://github.com/1tayH/Noisy/contributors)
 This project is licensed under the GNU GPLv3 License - see the [LICENSE.md](LICENSE.md) file for details
 
 ## Acknowledgments
+
 This project has been inspired by
 * [RandomNoise](http://www.randomnoise.us)
 * [web-traffic-generator](https://github.com/ecapuano/web-traffic-generator)

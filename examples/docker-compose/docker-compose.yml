@@ -1,0 +1,7 @@
+version: '3'
+
+services:
+  noisy:
+    build:
+      context: ../../
+    command: --config config.json
