@@ -4,4 +4,4 @@ services:
   noisy:
     build:
       context: ../../
-    command: --config ../../config.json
+    command: --config config.json
