@@ -90,13 +90,9 @@ DEBUG:urllib3.connectionpool:https://www.reddit.com:443 "GET /user/Saditon HTTP/
 
 `docker run -it noisy --config config.json`
 
-## Run multiple containers using `docker-compose`
+## Some examples
 
-docker-compose is useful if you want to run more than one container at the same time, to generate more noise. To do so, simply run the following command:
-```
-$ docker-compose build noisy
-$ docker-compose up --scale noisy=<number-of-containers>
-```
+Some edge-cases examples are available on the `examples` folder. You can read more there [examples/README.md](examples/README.md).
 
 ## Authors
 
