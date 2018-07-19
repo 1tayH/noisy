@@ -59,7 +59,12 @@ class Crawler(object):
         :param root_url: the URL the DOM was loaded from
         :return: absolute link
         """
-        parsed_url = urlparse(link)
+        try:
+            parsed_url = urlparse(link)
+        except ValueError:
+            # urlparse can get confused about urls with the ']'
+            # character and thinks it must be a malformed IPv6 URL
+            return None
         parsed_root_url = urlparse(root_url)
 
         # '//' means keep the current protocol used to access this URL
@@ -104,7 +109,7 @@ class Crawler(object):
         :param url: full url to be checked
         :return: boolean of whether or not the url should be accepted and potentially visited
         """
-        return self._is_valid_url(url) and not self._is_blacklisted(url)
+        return url and self._is_valid_url(url) and not self._is_blacklisted(url)
 
     def _extract_urls(self, body, root_url):
         """
