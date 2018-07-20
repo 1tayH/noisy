@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import argparse
 import datetime
 import json
@@ -9,17 +10,11 @@ import time
 
 import requests
 
+
 try:                 # Python 2
     from urllib.parse import urljoin, urlparse
 except ImportError:  # Python 3
     from urlparse import urljoin, urlparse
-
-try:                 # Python 2
-    reload(sys)
-    sys.setdefaultencoding('latin-1')
-except NameError:    # Python 3
-    pass
-
 
 class Crawler(object):
     def __init__(self):
@@ -101,7 +96,10 @@ class Crawler(object):
         :param url: full URL
         :return: boolean indicating whether a URL is blacklisted or not
         """
-        return any(blacklisted_url in url for blacklisted_url in self._config["blacklisted_urls"])
+        try:
+            return any(blacklisted_url in url for blacklisted_url in self._config["blacklisted_urls"])
+        except UnicodeDecodeError:
+            return True
 
     def _should_accept_url(self, url):
         """
