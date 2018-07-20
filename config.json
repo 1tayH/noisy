@@ -4,7 +4,17 @@
     "max_sleep": 6,
     "timeout": false,
     "root_urls": [
-        "http://www.kopimi.com"
+        "http://4chan.org",
+        "https://www.reddit.com",
+        "https://www.yahoo.com",
+        "http://www.cnn.com",
+        "https://pornhub.com",
+        "http://www.ebay.com",
+        "https://wikipedia.org",
+        "https://youtube.com",
+        "https://github.com",
+        "https://medium.com",
+        "https://thepiratebay.org"
     ],
     "blacklisted_urls": [
         "https://t.co",
