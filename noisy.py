@@ -16,6 +16,12 @@ try:                 # Python 2
 except ImportError:  # Python 3
     from urlparse import urljoin, urlparse
 
+try:                 # Python 2
+    reload(sys)
+    sys.setdefaultencoding('utf-8')
+except NameError:    # Python 3
+    pass
+
 class Crawler(object):
     def __init__(self):
         """
