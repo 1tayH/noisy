@@ -8,6 +8,7 @@ import sys
 import time
 
 import requests
+from urllib3.exceptions import LocationParseError
 
 try:                 # Python 2
     from urllib.parse import urljoin, urlparse
@@ -238,6 +239,9 @@ class Crawler(object):
 
                 except requests.exceptions.RequestException:
                     logging.warn("Error connecting to root url: {}".format(url))
+
+                except LocationParseError:
+                    logging.warn("Error encountered during parsing of: {}".format(url))
 
                 except self.CrawlerTimedOut:
                     logging.info("Timeout has exceeded, exiting")
