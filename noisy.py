@@ -239,6 +239,9 @@ class Crawler(object):
 
                 except requests.exceptions.RequestException:
                     logging.warn("Error connecting to root url: {}".format(url))
+                
+                except MemoryError:
+                    logging.warn("Error: content at url: {} is exhausting the memory".format(url))
 
                 except LocationParseError:
                     logging.warn("Error encountered during parsing of: {}".format(url))
