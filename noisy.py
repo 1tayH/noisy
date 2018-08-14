@@ -250,9 +250,6 @@ class Crawler(object):
                 logging.info("Timeout has exceeded, exiting")
                 return
 
-        logging.debug("No more links were found")
-
-
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--log', metavar='-l', type=str, help='logging level', default='info')
