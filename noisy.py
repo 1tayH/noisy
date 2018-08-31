@@ -239,6 +239,7 @@ class Crawler(object):
 
             except requests.exceptions.RequestException:
                 logging.warn("Error connecting to root url: {}".format(url))
+                time.sleep(random.randrange(self._config["min_sleep"], self._config["max_sleep"]))
                 
             except MemoryError:
                 logging.warn("Error: content at url: {} is exhausting the memory".format(url))
