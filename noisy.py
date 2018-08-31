@@ -250,6 +250,10 @@ class Crawler(object):
             except self.CrawlerTimedOut:
                 logging.info("Timeout has exceeded, exiting")
                 return
+            
+            except:
+                logging.error("Unrecoverable encountered at url: {}".format(url))
+                raise
 
 def main():
     parser = argparse.ArgumentParser()
