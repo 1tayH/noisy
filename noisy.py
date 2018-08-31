@@ -101,7 +101,10 @@ class Crawler(object):
         :param url: full URL
         :return: boolean indicating whether a URL is blacklisted or not
         """
-        return any(blacklisted_url in url for blacklisted_url in self._config["blacklisted_urls"])
+        try:
+            return any(blacklisted_url in url for blacklisted_url in self._config["blacklisted_urls"])
+        except UnicodeDecodeError:
+            return True
 
     def _should_accept_url(self, url):
         """
