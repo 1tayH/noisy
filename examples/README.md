@@ -18,7 +18,7 @@ values to suit your needs.
 
 To configure the service:
 ```
-$ sudo cp examples/noisy.service /etc/systemd/system
+$ sudo cp examples/systemd/noisy.service /etc/systemd/system
 $ sudo systemctl daemon-reload
 $ sudo systemctl enable noisy && sudo systemctl start noisy
 ```
