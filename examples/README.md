@@ -27,3 +27,13 @@ You can view the script's output by running:
 ```
 $ journalctl -f -n noisy
 ```
+
+## Bulk update root urls
+
+You can further tweak the noise generation by adding more root urls to visit eg.: Alexa top 1 million sites.
+An example bash script which does this can be found here
+You can run it from the project folder:
+
+```bash
+curl -sSL https://gist.githubusercontent.com/szepnapot/6fffd93688556f97e4a8f79837a1c0ca/raw/b7853a7038d1967dbe8fa94ff85ef5624a8d27d1/update_root_urls.sh | bash
+```
