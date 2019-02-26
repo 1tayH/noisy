@@ -1,10 +1,12 @@
 
 # Noisy
 [![CircleCI](https://circleci.com/gh/1tayH/noisy/tree/master.svg?style=shield)](https://circleci.com/gh/1tayH/noisy/tree/master)
+<a href="https://github.com/ambv/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
+
 
 A simple python script that generates random HTTP/DNS traffic noise in the background while you go about your regular web browsing, to make your web traffic data less valuable for selling and for extra obscurity.
 
-Tested on MacOS High Sierra, Ubuntu 16.04 and Raspbian Stretch and is compatable with both Python 2.7 and 3.6
+Tested on MacOS High Sierra, Ubuntu 16.04 and Raspbian Stretch and is compatible with both Python 2.7 and 3.6
 
 ## Getting Started
 
@@ -34,6 +36,10 @@ Run the script
 
 ```
 python noisy.py --config config.json
+
+# or
+
+make run
 ```
 
 The program can accept a number of command line arguments:
@@ -89,6 +95,8 @@ DEBUG:urllib3.connectionpool:https://www.reddit.com:443 "GET /user/Saditon HTTP/
 2. Create the container and run:
 
 `docker run -it noisy --config config.json`
+
+To further simplify starting a few containers with noisy you can run `make scale=[num of containers] multi-run`.
 
 ## Some examples
 
