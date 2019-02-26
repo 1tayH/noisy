@@ -143,6 +143,8 @@ class Crawler(object):
         and blacklists it so we don't visit it in the future
         :param link: link to remove and blacklist
         """
+        if link not in self._links:
+            return
         self._config["blacklisted_urls"].append(link)
         del self._links[self._links.index(link)]
 
