@@ -102,7 +102,10 @@ class Crawler(object):
         :param url: full URL
         :return: boolean indicating whether a URL is blacklisted or not
         """
-        return any(blacklisted_url in url for blacklisted_url in self._config["blacklisted_urls"])
+        try:
+            return any(blacklisted_url in url for blacklisted_url in self._config["blacklisted_urls"])
+        except UnicodeDecodeError:
+            return True
 
     def _should_accept_url(self, url):
         """
@@ -172,7 +175,7 @@ class Crawler(object):
                 # remove the dead-end link from our list
                 self._remove_and_blacklist(random_link)
 
-        except requests.exceptions.RequestException:
+        except (requests.exceptions.RequestException, UnicodeDecodeError):
             logging.debug("Exception on URL: %s, removing from list and trying again!" % random_link)
             self._remove_and_blacklist(random_link)
 
