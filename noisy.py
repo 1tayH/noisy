@@ -238,13 +238,13 @@ class Crawler(object):
                 self._browse_from_links()
 
             except requests.exceptions.RequestException:
-                logging.warn("Error connecting to root url: {}".format(url))
+                logging.warning("Error connecting to root url: {}".format(url))
                 
             except MemoryError:
-                logging.warn("Error: content at url: {} is exhausting the memory".format(url))
+                logging.warning("Error: content at url: {} is exhausting the memory".format(url))
 
             except LocationParseError:
-                logging.warn("Error encountered during parsing of: {}".format(url))
+                logging.warning("Error encountered during parsing of: {}".format(url))
 
             except self.CrawlerTimedOut:
                 logging.info("Timeout has exceeded, exiting")
