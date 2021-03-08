@@ -109,3 +109,52 @@ This project is licensed under the GNU GPLv3 License - see the [LICENSE.md](LICE
 This project has been inspired by
 * [RandomNoise](http://www.randomnoise.us)
 * [web-traffic-generator](https://github.com/ecapuano/web-traffic-generator)
+
+## Running Noisy in the background (power on + suspend) on Linux (Ubuntu)
+
+1. Run in terminal `gnome-session-properties` (or whatever) and add new startup program with the following command:
+
+NOTE: Noisy saved in the `/home/$USER/` directory.
+
+```bash
+rm -rf .log/output.log && mkdir -p .log && nohup python3 noisy/noisy.py --config noisy/config.json > .log/output.log &
+```
+
+2. Run script when resuming from suspend ([source](https://askubuntu.com/questions/1093215/how-to-run-script-after-resuming-from-sleep)):
+
+```bash
+sudo chmod 777 /lib/systemd/system-sleep/
+sudo cat > /lib/systemd/system-sleep/resume
+```
+
+Copy the following `resume` to the file:
+
+```bash
+#!/bin/sh
+
+case $1/$2 in
+  pre/*)
+    echo "Going to $2..."
+    # Place your pre suspend commands here, or `exit 0`
+    # if no pre suspend action required
+    exit 0
+    ;;
+  post/*)
+    echo "Waking up from $2..."
+    nohup python3 noisy/noisy.py --config noisy/config.json > .log/output.log &
+    ;;
+esac
+```
+
+3. Make `resume` executable:
+
+```bash
+sudo chmod +x /lib/systemd/system-sleep/resume
+```
+
+4. Reboot the system and check if logs are saved:
+
+```bash
+cat ~/.log/output.log
+```
+ 
