@@ -25,5 +25,5 @@ $ sudo systemctl enable noisy && sudo systemctl start noisy
 
 You can view the script's output by running:
 ```
-$ journalctl -f -n noisy
+$ journalctl -f -u noisy
 ```
