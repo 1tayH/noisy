@@ -28,6 +28,7 @@ class Crawler(object):
         Initializes the Crawl class
         """
         self._config = {}
+        self._session = requests.Session()
         self._links = []
         self._start_time = None
 
@@ -46,7 +47,7 @@ class Crawler(object):
         random_user_agent = random.choice(self._config["user_agents"])
         headers = {'user-agent': random_user_agent}
 
-        response = requests.get(url, headers=headers, timeout=5)
+        response = self._session.get(url, headers=headers, timeout=5)
 
         return response
 
